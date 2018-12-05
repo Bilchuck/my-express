@@ -31,8 +31,12 @@ module.exports = class MyExpress {
           m_i++;
           this._middlewares[m_i - 1](req, res, next);
         } else if (r_i < this._routeHandlers.length) {
-          r_i++;
-          this._routeHandlers[r_i - 1](req, res, next);
+          const { handler } = this._routeHandlers.find(({path}) => path === req.url) || {};
+          if (handler) {
+            handler(req, res);
+          } else {
+            res.end('No handlers.');
+          }
         } else {
           res.end('No handlers.');
         }
