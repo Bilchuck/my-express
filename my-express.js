@@ -16,6 +16,7 @@ module.exports = class MyExpress {
 
   get(path, handler) {
     this._routeHandlers.push({
+      method: 'GET',
       path,
       handler,
     });
@@ -31,7 +32,7 @@ module.exports = class MyExpress {
           m_i++;
           this._middlewares[m_i - 1](req, res, next);
         } else if (r_i < this._routeHandlers.length) {
-          const { handler } = this._routeHandlers.find(({path}) => path === req.url) || {};
+          const { handler } = this._routeHandlers.find(({ path, method }) => path === req.url && req.method === method) || {};
           if (handler) {
             handler(req, res);
           } else {
