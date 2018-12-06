@@ -22,6 +22,14 @@ module.exports = class MyExpress {
     });
   }
 
+  post(path, handler) {
+    this._routeHandlers.push({
+      method: 'POST',
+      path,
+      handler,
+    });
+  }
+
   listen(port, listenHandler) {
     http.createServer((req, res) => {
       let m_i = 0, r_i = 0;
